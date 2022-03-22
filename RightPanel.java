@@ -37,7 +37,6 @@ public class RightPanel  extends JPanel
 		p1Info = new Box(BoxLayout.X_AXIS);
 		p1Info.setPreferredSize(new Dimension(100, 30));
 		p1Info.setMaximumSize(new Dimension(100,30));
-		setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		add(p1Info, BoxLayout.Y_AXIS);
 		
@@ -55,7 +54,7 @@ public class RightPanel  extends JPanel
 		
 		p2Info = new Box(BoxLayout.X_AXIS);
 		p2Info.setPreferredSize(new Dimension(this.getWidth(), 30));
-		p2Info.setMaximumSize(new Dimension(100,200));
+		p2Info.setMaximumSize(new Dimension(100,30));
 		add(p2Info);
 		
 		player2 = new JLabel("GRACZ 2");
