@@ -20,8 +20,6 @@ public class RightPanel  extends JPanel
 	JSlider powerSlider;
 	Box p1Info, p2Info;
 	
-//	JMenu menu;
-	
 	static final int SLIDER_MIN = 0;
 	static final int SLIDER_MAX = 100;
 	static final int SLIDER_INIT = 0;
@@ -37,11 +35,8 @@ public class RightPanel  extends JPanel
 		add(Box.createRigidArea(new Dimension(0,20)));
 		
 		p1Info = new Box(BoxLayout.X_AXIS);
-		
-//		p1Info.add(Box.createRigidArea(new Dimension(5,0)));
 		p1Info.setPreferredSize(new Dimension(100, 30));
 		p1Info.setMaximumSize(new Dimension(100,30));
-//		p1Info.add(Box.createRigidArea(new Dimension(5,0)));
 		setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		add(p1Info, BoxLayout.Y_AXIS);
@@ -59,10 +54,8 @@ public class RightPanel  extends JPanel
 		p1Info.add(score1);
 		
 		p2Info = new Box(BoxLayout.X_AXIS);
-//		p2Info.add(Box.createRigidArea(new Dimension(5,0)));
 		p2Info.setPreferredSize(new Dimension(this.getWidth(), 30));
 		p2Info.setMaximumSize(new Dimension(100,200));
-//		p2Info.add(Box.createRigidArea(new Dimension(5,0)));
 		add(p2Info);
 		
 		player2 = new JLabel("GRACZ 2");

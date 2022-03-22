@@ -17,7 +17,7 @@ public class Frame extends JFrame{
 	JPanel table;
 
 	public Frame() {
-		setSize(820,640);
+		setSize(1400,600);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
 		setLayout(new BorderLayout());
 		setTitle(title);
