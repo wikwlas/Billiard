@@ -1,9 +1,10 @@
-package Bilard;
+package bilard;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -12,9 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class RightPanel  extends JPanel
-{
+public class RightPanel  extends JPanel{
 	JLabel player1, player2, powerLabel;
 	JTextField score1, score2, powerValue;
 	JSlider powerSlider;
@@ -76,9 +78,18 @@ public class RightPanel  extends JPanel
 		
 		add(Box.createRigidArea(new Dimension(0,10)));
 		
-		powerValue = new JTextField("0%");
+		powerValue = new JTextField("0");
 		powerValue.setPreferredSize(new Dimension(50,30));
 		powerValue.setMaximumSize(new Dimension(50,30));
+		powerValue.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				powerSlider.setValue(Integer.parseInt(powerValue.getText()));
+				
+			}
+			
+		});
 		powerValue.setHorizontalAlignment(SwingConstants.CENTER);
 		add(powerValue);
 		
@@ -91,11 +102,28 @@ public class RightPanel  extends JPanel
 		powerSlider.setMinorTickSpacing(5);
 		powerSlider.setMajorTickSpacing(20);
 		powerSlider.setBackground(Color.WHITE);
-//		powerSlider.addChangeListener(new SliderChangeListener());
+		powerSlider.addChangeListener(new SliderChangeListener());
 		add(powerSlider);
 		
 		add(Box.createRigidArea(new Dimension(0,20)));
 	}
 	
+    public class SliderChangeListener implements ChangeListener{
+		
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			String value = String.format("%d", powerSlider.getValue());
+			powerValue.setText(value);
+		}
+    }
+	
+    
+    public int getSliderValue() {
+    	return powerSlider.getValue();
+    }
+
+
+    
+    
 }
 

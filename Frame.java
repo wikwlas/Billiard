@@ -1,4 +1,4 @@
-package Bilard;
+package bilard;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,9 +18,10 @@ public class Frame extends JFrame{
 
 	public Frame() {
 		setSize(1400,600);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		setLayout(new BorderLayout());
-		setTitle(title);
+		setResizable(false);
+		setTitle("Billiard");
 		
 		JMenuBar menuBar = new JMenuBar();
 		//UIManager.put("MenuBar.background", Color.DARK_GRAY);
@@ -60,20 +61,8 @@ public class Frame extends JFrame{
 		menuBar.add(menuLine4);
 		menuBar.add(menuLine5);
 		
-		setJMenuBar(menuBar);
-		
-		rightPanel = new RightPanel();
-		
-		add(rightPanel, BorderLayout.LINE_END);
-		
-		table = new JPanel();
-		table.setBackground(new Color(0,80,0));
-		add(table, BorderLayout.CENTER);
+		setJMenuBar(menuBar);	
 	}
-	public static void main(String[] args)
-	{
-		Frame frame = new Frame ();
-		frame.setVisible(true);
-	}
-
+	
+	
 }
