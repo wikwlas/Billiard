@@ -3,141 +3,178 @@ package bilard;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
 public class Table extends JPanel implements Runnable {
 	
 	Table table = this;
+	int ballNumber = 10;
+	private Ball[] balls = new Ball[ballNumber];
+	int ballCount = 0;
 	
-	List<Ball> balls = new ArrayList<Ball>();
+	private Vector2D strike = new Vector2D();
+	private double X = 0;
+	private double Y = 0;
+	
+	Ball cueBall;
 
 	public Table() {
 		setSize(912, 456);
 		setBackground(new Color(0,80,0));
-//		setMaximumSize(new Dimension(100,100));
-		setPreferredSize(new Dimension(912, 456));
+//		setPreferredSize(new Dimension(912, 456));
+		setPreferredSize(new Dimension(600, 400));
+
+		
+		addMouseListener(new MouseAdapter() {
+	        public void mousePressed(MouseEvent e) {
+	        	
+	        	if(cueBall==null) return;
+	        	
+	        	X = e.getX();
+	        	Y = e.getY();  
+	        	strike.setX((float) (X-(cueBall.position.getX()+Ball.getRadius())));
+	        	strike.setY((float) (Y-(cueBall.position.getY()+Ball.getRadius())));
+	        	strike.normalize();
+
+	        	cueBall.setVelocity(strike.multiply(1000));
+	        }
+	    });
 	}
 	
-	public Ball addBall(int x, int y){
-		Ball ball = new Ball();
-		ball.setxPos(x);
-		ball.setyPos(y);
+	
+	public void CustomGameStart() { //temporary
+		cueBall = addBall(100, getHeight()/2 , 0);
+		randomAddAllBalls(ballNumber);
+	}
+	
+	public void StandardGameStart() {
+		//not-yet
+	}
+	
+	public Ball addBall(int x, int y, int ballType)
+	{
+		Ball ball = new Ball(x, y, ballType);
+	
+		balls[ballCount] = ball;
+		ballCount++;
 
-		balls.add(ball);		
 		return ball;
+	}
+	
+	public void randomAddAllBalls(int ballNumber) {
+		Random rand = new Random();
+		int x;
+		int y;
+		int ballType;
+		for(int i = 0; i<ballNumber-1; i++) {
+			x = rand.nextInt(getWidth()-Ball.getDiameter());
+			y = rand.nextInt(getHeight()-Ball.getDiameter());
+			if(i%2==0)
+				ballType = 1;
+			else
+				ballType = -1;
+			addBall(x, y, ballType);
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		for (Ball ball : balls) {
-			ball.paint(g);
+		for (int i = 0; i < ballCount; i++) {
+			balls[i].paint(g);
 		}
-
 	}
 	
-	public void frictionForce() {
-		for (Ball ball : balls) {
-			if(Math.abs(ball.getxVel())>=1) {
-				if(ball.getxVel()>0)
-					ball.setxVel(ball.getxVel()-1);
-				if(ball.getxVel()<0)
-					ball.setxVel(ball.getxVel()+1);
+	@Override
+	public void run()
+	{
+		long previousTime = System.currentTimeMillis();
+		long currentTime = previousTime;
+		long elapsedTime;
+
+		while(true)
+		{
+			currentTime = System.currentTimeMillis();
+			elapsedTime = (currentTime - previousTime);
+
+			tableUpdate(elapsedTime / 1000f);
+			repaint();
+
+			try
+			{
+				Thread.sleep(5);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			if(Math.abs(ball.getyVel())>=1){
-				if(ball.getyVel()>0)
-					ball.setyVel(ball.getyVel()-1);
-				if(ball.getyVel()<0)
-					ball.setyVel(ball.getyVel()+1);
+
+			previousTime = currentTime;
+		}
+	}
+	
+	public void tableUpdate(float time)
+	{
+
+		for (int i = 0; i < ballCount; i++){
+			balls[i].frictionForce();
+			balls[i].position.setX(balls[i].position.getX() + (balls[i].velocity.getX() * time));
+			balls[i].position.setY(balls[i].position.getY() + (balls[i].velocity.getY() * time));
+		}
+		collisions();
+	}
+	
+
+	public void sorting(Comparable[] a)
+	{
+		 for( int p = 1; p < ballCount; p++ ){
+	         Comparable tmp = a[ p ];
+	         int j = p;
+
+	         for( ; j>0 && tmp.compareTo(a[j-1]) < 0; j--)
+	             a[j] = a[j-1];
+
+	         a[j] = tmp;
+		 }
+	}
+
+
+	public void collisions()
+	{
+		sorting(balls);
+
+		for (int i = 0; i < ballCount; i++)
+		{
+			//with bands
+			if (balls[i].position.getX()< 0){
+				balls[i].position.setX(0);
+				balls[i].velocity.setX(-(balls[i].velocity.getX()));
+				balls[i].velocity.setY(balls[i].velocity.getY());
+			}
+			else if (balls[i].position.getX() + Ball.getDiameter() > getWidth()){
+				balls[i].position.setX(getWidth() - Ball.getDiameter());		
+				balls[i].velocity.setX(-(balls[i].velocity.getX())); 
+				balls[i].velocity.setY((balls[i].velocity.getY()));
+			}
+
+			if (balls[i].position.getY() < 0){
+				balls[i].position.setY(0);				
+				balls[i].velocity.setY(-(balls[i].velocity.getY())); 
+				balls[i].velocity.setX((balls[i].velocity.getX()));
+			}
+			else if (balls[i].position.getY() + Ball.getDiameter() > getHeight()){
+				balls[i].position.setY(getHeight() - Ball.getDiameter());		
+				balls[i].velocity.setY(-(balls[i].velocity.getY()));   
+				balls[i].velocity.setX((balls[i].velocity.getX()));
+			}
+
+			//ball to ball
+			for(int j = i + 1; j < ballCount; j++){
+				balls[i].ballToBallCollision(balls[j]);
 			}
 		}
 	}
-
-	@Override
-	public void run() {
-		boolean b = true;
-        int pause = 1;
-        int distanceSquared;
-        double theta;
-        int tempxVel, tempyVel;
-        int i = 1;
-        while(b) {
-        	for (Ball ball : balls) {
-        		for (Ball otherBall : balls) {
-        			if(ball!=otherBall) {
-	        			distanceSquared = (ball.getxCenterPos()-otherBall.getxCenterPos())*(ball.getxCenterPos()-otherBall.getxCenterPos())+(ball.getyCenterPos()-otherBall.getyCenterPos())*(ball.getyCenterPos()-otherBall.getyCenterPos());
-		        		
-			        	if((ball.getxPos()+ball.getDiameter())==table.getWidth())
-			        		ball.setxVel(-Math.abs(ball.getxVel()));
-			        	if(ball.getxPos()==0)
-			        		ball.setxVel(Math.abs(ball.getxVel()));
-	        			
-	        			if((ball.getyPos()+ball.getDiameter())==table.getHeight())
-	            			ball.setyVel(-Math.abs(ball.getyVel()));
-	        			if(ball.getyPos()==0)
-			        		ball.setyVel(Math.abs(ball.getyVel()));
-	        			
-//	        			if(distanceSquared<=ball.getDiameter()*ball.getDiameter()) {
-//	        				if((ball.getxCenterPos()==otherBall.getxCenterPos()))      					
-//	        					theta = Math.PI/2;
-//							else 
-//								theta = Math.atan((ball.getyCenterPos()-otherBall.getyCenterPos())/(otherBall.getxCenterPos()-ball.getxCenterPos()));
-//	        				
-//	            			tempyVel = (int) (otherBall.getyVel()*Math.sin(theta)*Math.sin(theta)+ball.getyVel()*Math.cos(theta)*Math.cos(theta)+(ball.getxVel()-otherBall.getxVel())*Math.sin(theta)*Math.cos(theta));     		
-//	            			otherBall.setyVel((int) (ball.getyVel()*Math.sin(theta)*Math.sin(theta)+otherBall.getyVel()*Math.cos(theta)*Math.cos(theta)+(otherBall.getxVel()-ball.getxVel())*Math.sin(theta)*Math.cos(theta)));
-//	            			ball.setyVel(tempyVel);
-//	    					
-//	            			tempxVel = (int) (ball.getxVel()*Math.sin(theta)*Math.sin(theta)+otherBall.getxVel()*Math.cos(theta)*Math.cos(theta)+(ball.getyVel()-otherBall.getyVel())*Math.sin(theta)*Math.cos(theta));     		
-//	            			otherBall.setxVel((int) (otherBall.getxVel()*Math.sin(theta)*Math.sin(theta)+ball.getxVel()*Math.cos(theta)*Math.cos(theta)+(otherBall.getyVel()-ball.getyVel())*Math.sin(theta)*Math.cos(theta)));
-//	            			ball.setxVel(tempxVel);	
-//	        				
-	        					
-//	        				tempxVel = ball.getxVel();
-//	        				ball.setxVel(otherBall.getxVel());
-//	        				otherBall.setxVel(tempxVel);
-//	        				
-//	        				tempyVel = ball.getyVel();
-//	        				ball.setyVel(otherBall.getyVel());
-//	        				otherBall.setyVel(tempyVel);
-//	        			}
-        			}
-		        }
-        		if(i%100==0) {
-        			frictionForce();
-        		}
-        		
-            	if(ball.getxVel()!=0) {
-    	        	if(i%((int)(100/Math.abs(ball.getxVel())))==0) {
-    	        		if(ball.getxVel()>0)
-    	    				ball.setxPos(ball.getxPos()+1);
-    	    			else
-    	    				ball.setxPos(ball.getxPos()-1);
-    	        	}
-            	}
-            	
-            	if(ball.getyVel()!=0) {
-            		if(i%((int)(100/Math.abs(ball.getyVel())))==0) {
-    	        		if(ball.getyVel()>0)
-    	    				ball.setyPos(ball.getyPos()+1);
-    	    			else
-    	    				ball.setyPos(ball.getyPos()-1);
-    	        	}
-            	}
-	        }
-        	
-        	i++;
-        	if(i%100==0) i=0;
-        	repaint();
-        	
-        	try {
-        		Thread.sleep(pause);
-        	} catch (InterruptedException e) {
-        		e.printStackTrace();
-        	}
-        }
-	}
-}        	
+	
+}

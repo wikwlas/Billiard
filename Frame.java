@@ -1,7 +1,6 @@
 package bilard;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -20,7 +19,7 @@ public class Frame extends JFrame{
 		setSize(1400,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		setLayout(new BorderLayout());
-		setResizable(false);
+//		setResizable(false);
 		setTitle("Billiard");
 		
 		JMenuBar menuBar = new JMenuBar();

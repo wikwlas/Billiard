@@ -26,7 +26,7 @@ public class RightPanel  extends JPanel{
 	static final int SLIDER_MAX = 100;
 	static final int SLIDER_INIT = 0;
 	
-	static String title = "Bilard";
+	static String title = "Biliard";
 	
 	public RightPanel() throws HeadlessException
 	{	
@@ -116,14 +116,10 @@ public class RightPanel  extends JPanel{
 			powerValue.setText(value);
 		}
     }
-	
     
     public int getSliderValue() {
     	return powerSlider.getValue();
     }
 
-
-    
-    
 }
 
