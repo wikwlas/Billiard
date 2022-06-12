@@ -1,4 +1,4 @@
-package bilard;
+package bilardmain;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,6 +7,7 @@ import java.util.Random;
 public class Ball implements Comparable<Ball>{
 	
 	Random rand = new Random();
+	Table table = new Table(null);
 	
 	Ball ball = this;
 	
@@ -16,7 +17,7 @@ public class Ball implements Comparable<Ball>{
 	
 	private static int diameter = 30;
     
-    int ballType = -1; //-1 - solid; 0 - white; 1 - striped
+    int ballType = -1; //-1 - solid; 0 - white; 1 - striped; 2 - black
     
     Vector2D t;
     
@@ -38,6 +39,8 @@ public class Ball implements Comparable<Ball>{
 			g.setColor(Color.blue);
 		else if(ballType == 0)
 			g.setColor(Color.white);
+		else if(ballType == 2)
+			g.setColor(Color.black);
 		else
 			g.setColor(Color.red);
 		g.fillOval((int) position.getX(),(int) position.getY(),diameter,diameter);
@@ -83,7 +86,7 @@ public class Ball implements Comparable<Ball>{
 
 	}
 	
-	public void frictionForce(){
+	public void frictionForce(){// do przepisania na substract 
 		if(ball.velocity.getLength()!=0) {
 			if(Math.abs(ball.velocity.getX())>=1) {
 				if(ball.velocity.getX()>0)
@@ -97,7 +100,7 @@ public class Ball implements Comparable<Ball>{
 				else if(ball.velocity.getY()<0)
 					ball.velocity.setY((float) (ball.velocity.getY()+Math.abs(ball.velocity.getY())/Math.sqrt(ball.velocity.getX()*ball.velocity.getX() + ball.velocity.getY()*ball.velocity.getY())));
 			}
-			if(ball.velocity.getLength()<1.5) {
+			if(ball.velocity.getLength()<=1.5) {
 				ball.velocity.setX(0);
 				ball.velocity.setY(0);
 			}

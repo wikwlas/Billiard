@@ -1,4 +1,4 @@
-package bilard;
+package bilardmain;
 
 public class Vector2D {
 

@@ -1,4 +1,4 @@
-package bilard;
+package bilardmain;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -29,7 +29,7 @@ public class MainClass extends JFrame{
 		setSize(WIDTH,HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		setLayout(new BorderLayout());
-		setResizable(false);
+//		setResizable(false);
 		setTitle("Billiard");
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -42,7 +42,12 @@ public class MainClass extends JFrame{
 		
 		JMenuItem menuItem11 = new JMenuItem("Domyślna");
 		menuItem11.setActionCommand("default");
-//		menuItem11.addActionListener(this);
+		menuItem11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Removes shutter issue (check method header for details)
+				table.StandardGameStart();
+			}
+		});
 		menuLine1.add(menuItem11);
 		menuLine1.addSeparator();
 		
@@ -90,18 +95,21 @@ public class MainClass extends JFrame{
 				rightPanel = new RightPanel();
 				frame.add(rightPanel, BorderLayout.LINE_END);
 				
-				midPanel = new JPanel();
-					midPanel.setLayout(new GridBagLayout());
-					midPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-				frame.add(midPanel, BorderLayout.CENTER);
+//				midPanel = new JPanel();
+//					midPanel.setLayout(new GridBagLayout());
+//					midPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+//				frame.add(midPanel, BorderLayout.CENTER);
+//				
+				table = new Table(frame);
+//				midPanel.add(table);
 				
-				table = new Table();
-				midPanel.add(table);
+				frame.add(table, BorderLayout.CENTER);
 
 				ExecutorService exec = Executors.newFixedThreadPool(2);
 				exec.execute(table);
 				
 				frame.setVisible(true);
+				frame.pack();
 			}
 		});
 	}

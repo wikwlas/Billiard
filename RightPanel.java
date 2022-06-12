@@ -1,4 +1,4 @@
-package bilard;
+package bilardmain;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,6 +17,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class RightPanel  extends JPanel{
+	
 	JLabel player1, player2, powerLabel;
 	JTextField score1, score2, powerValue;
 	JSlider powerSlider;
@@ -24,7 +25,7 @@ public class RightPanel  extends JPanel{
 	
 	static final int SLIDER_MIN = 0;
 	static final int SLIDER_MAX = 100;
-	static final int SLIDER_INIT = 0;
+	static final int SLIDER_INIT = 100;
 	
 	static String title = "Biliard";
 	
@@ -78,7 +79,7 @@ public class RightPanel  extends JPanel{
 		
 		add(Box.createRigidArea(new Dimension(0,10)));
 		
-		powerValue = new JTextField("0");
+		powerValue = new JTextField(Integer.toString(SLIDER_INIT));
 		powerValue.setPreferredSize(new Dimension(50,30));
 		powerValue.setMaximumSize(new Dimension(50,30));
 		powerValue.addActionListener(new ActionListener() {
