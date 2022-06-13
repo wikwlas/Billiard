@@ -15,7 +15,12 @@ import javax.swing.JPanel;
 
 public class Table extends JPanel implements Runnable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Table table = this;
+	String typeOfGame;
 //	RightPanel rightPanel = new RightPanel();
 	MainClass frame;
 	int ballNumber = 16;
@@ -32,7 +37,7 @@ public class Table extends JPanel implements Runnable {
 	
 	Ball cueBall;
 	
-	int stickWidth = 10;
+	int stickWidth = 5;
 	Color stickColor = Color.black;
 	int stickX1, stickX2, stickY1, stickY2;
 

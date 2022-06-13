@@ -51,7 +51,7 @@ public class MainClass extends JFrame{
 	public String choose_color = "Wybierz kolor";
 	public static final int WIDTH = 1400;
 	public static final int HEIGHT = 600;
-	
+	PlayersWindow playersWindow;
 	public MainClass() {
 		new_game = "Nowa gra";	
 		save = "Zapisz";	
@@ -80,7 +80,9 @@ public class MainClass extends JFrame{
 		menuItem11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Removes shutter issue (check method header for details)
-				table.StandardGameStart();
+				table.typeOfGame = "default";
+				playersWindow = new PlayersWindow(rightPanel, table);
+				playersWindow.setVisible(true);
 			}
 		});
 		menuLine1.add(menuItem11);
@@ -92,8 +94,9 @@ public class MainClass extends JFrame{
 		menuItem12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Removes shutter issue (check method header for details)
-				table.CustomGameStart();
-
+				table.typeOfGame = "custom";
+				playersWindow = new PlayersWindow(rightPanel, table);
+				playersWindow.setVisible(true);
 			}
 		});
 
@@ -185,8 +188,15 @@ public class MainClass extends JFrame{
 	}
 	public void ChangeLanguage() {
 		if (flag == 1) {
-			rightPanel.player1.setText("PLAYER 1");
-			rightPanel.player2.setText("PLAYER 2");
+			if (rightPanel.name_of_player1 == "GRACZ 1") {
+				rightPanel.name_of_player1 = "PLAYER 1";
+				rightPanel.player2.setText("PLAYER 1");
+			}
+			if (rightPanel.name_of_player2 == "GRACZ 2") {
+				rightPanel.name_of_player1 = "PLAYER 2";
+				rightPanel.player2.setText("PLAYER 2");
+			}
+			playersWindow.label2.setText("Enter players names: (max 7 chars)");
 			rightPanel.powerLabel.setText("POWER");
 	    	new_game = "New game";	
 	    	save = "Save";	
@@ -207,8 +217,15 @@ public class MainClass extends JFrame{
 	    	menuItem41.setText(ttable);
 	    	menuItem42.setText(stick);
 		} else {
-			rightPanel.player1.setText("GRACZ 1");
-			rightPanel.player2.setText("GRACZ 2");
+			if (rightPanel.name_of_player1 == "PLAYER 1") {
+				rightPanel.name_of_player1 = "GRACZ 1";
+				rightPanel.player2.setText("GRACZ 1");
+			}
+			if (rightPanel.name_of_player2 == "PLAYER 2") {
+				rightPanel.name_of_player1 = "GRACZ 2";
+				rightPanel.player2.setText("GRACZ 2");
+			}
+			playersWindow.label2.setText("Wprowadz nazwy graczy: (max 7 znaków)");
 			rightPanel.powerLabel.setText("MOC");
 	    	new_game = "Nowa gra";	
 	    	save = "Zapisz";	
