@@ -1,4 +1,4 @@
-package bilardmain;
+package Billiard3;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -21,8 +22,8 @@ public class Table extends JPanel implements Runnable {
 	private Ball[] balls = new Ball[ballNumber];
 	private Pocket[] pockets = new Pocket[6];
 	int ballCount = 0;
-	
-	
+	Date data;
+	long start;
 	private Vector2D strike = new Vector2D();
 	private Vector2D direction, gap, stickVec;
 
@@ -31,7 +32,7 @@ public class Table extends JPanel implements Runnable {
 	
 	Ball cueBall;
 	
-	int stickWidth = 5;
+	int stickWidth = 10;
 	Color stickColor = Color.black;
 	int stickX1, stickX2, stickY1, stickY2;
 
@@ -57,21 +58,62 @@ public class Table extends JPanel implements Runnable {
 //	        }
 			   
 	        public void mousePressed(MouseEvent e) {
-	        	if(!areMoving()) {	       		
+	        	
+	        	if(!areMoving()) {	  
+	        		
 		        	if(cueBall==null) return;
 		        	
 		        	  
 		        	strike.setX((float) (e.getX()-(cueBall.position.getX()+Ball.getRadius())));
 		        	strike.setY((float) (e.getY()-(cueBall.position.getY()+Ball.getRadius())));
 		        	strike.normalize();
-		        	
+		        	start = System.currentTimeMillis();
 		        	direction = strike;
 		        	cueBall.setVelocity(strike.multiply(MainClass.rightPanel.powerSlider.getValue()*25));
 		        	previousTime = System.currentTimeMillis();
 		        	
 
 		        	//animacja kija
-		        
+		        	
+		        	if (e.getX() <= cueBall.position.getX()+Ball.getRadius() && e.getY() <= cueBall.position.getY()+Ball.getRadius()) {
+		        		
+		        		stickX1=(int) (cueBall.position.getX()+Ball.getRadius());
+			        	stickY1=(int) (cueBall.position.getY()+Ball.getRadius());
+			        	int x_b = (int) (cueBall.position.getX()+Ball.getRadius() - e.getX());
+			        	int y_b = (int) (cueBall.position.getY()+Ball.getRadius() - e.getY());
+			        	int x = (int) ((500*x_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	int y = (int) ((500*y_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	stickX2= stickX1 + x;
+			        	stickY2= stickY1 + y;
+		        	} else if (e.getX() > cueBall.position.getX()+Ball.getRadius() && e.getY() < cueBall.position.getY()+Ball.getRadius()) {
+		        		stickX1=(int) (cueBall.position.getX()+Ball.getRadius());
+			        	stickY1=(int) (cueBall.position.getY()+Ball.getRadius());
+			        	int x_b = (int) (cueBall.position.getX()+Ball.getRadius() + e.getX());
+			        	int y_b = (int) (cueBall.position.getY()+Ball.getRadius() - e.getY());
+			        	int x = (int) ((500*x_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	int y = (int) ((500*y_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	stickX2= stickX1 - x;
+			        	stickY2= stickY1 + y;
+		        	} else if (e.getX() < cueBall.position.getX()+Ball.getRadius() && e.getY() > cueBall.position.getY()+Ball.getRadius()) {
+		        		stickX1=(int) (cueBall.position.getX()+Ball.getRadius());
+			        	stickY1=(int) (cueBall.position.getY()+Ball.getRadius());
+			        	int x_b = (int) (cueBall.position.getX()+Ball.getRadius() - e.getX());
+			        	int y_b = (int) (cueBall.position.getY()+Ball.getRadius() + e.getY());
+			        	int x = (int) ((500*x_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	int y = (int) ((500*y_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	stickX2= stickX1 + x;
+			        	stickY2= stickY1 - y;
+		        	} else if (e.getX() > cueBall.position.getX()+Ball.getRadius() && e.getY() > cueBall.position.getY()+Ball.getRadius()) {
+		        		stickX1=(int) (cueBall.position.getX()+Ball.getRadius());
+			        	stickY1=(int) (cueBall.position.getY()+Ball.getRadius());
+			        	int x_b = (int) (cueBall.position.getX()+Ball.getRadius() + e.getX());
+			        	int y_b = (int) (cueBall.position.getY()+Ball.getRadius() + e.getY());
+			        	int x = (int) ((500*x_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	int y = (int) ((500*y_b)/Math.sqrt(x_b*x_b + y_b*y_b));
+			        	stickX2= stickX1 - x;
+			        	stickY2= stickY1 - y;
+		        	}
+		        	
 		        	synchronized(table) {
 		    			table.notify();
 		    		}
@@ -106,7 +148,7 @@ public class Table extends JPanel implements Runnable {
 		MainClass.rightPanel.score2.setText("0");
 		balls = new Ball[16];
 		cueBall = addBall(getWidth()/4, getHeight()/2, 0);
-		
+		start = 0;
 		addBall(getWidth()*3/5, getHeight()/2, 1);
 		
 		addBall(getWidth()*3/5+26, getHeight()/2+15, -1);
@@ -183,13 +225,26 @@ public class Table extends JPanel implements Runnable {
 			balls[i].paint(g2);
 		}
 		
-		if(!areMoving()) {
+		if(areMoving()) {
 			g2.setColor(stickColor);
 			g2.setStroke(new BasicStroke(stickWidth));
 			g2.drawLine(stickX1, stickY1, stickX2, stickY2);
+			sticFading();
 		}
 		
 		
+	}
+	public void sticFading() {
+	
+		if(System.currentTimeMillis() - start <= 1000) {
+		}
+		else{
+			stickX1 = 0;
+			stickX2 = 0;
+			stickY1 = 0;
+			stickY2 = 0;			
+		}
+
 	}
 	
 	@Override

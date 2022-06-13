@@ -1,4 +1,5 @@
-package bilardmain;
+package Billiard3;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,11 +19,18 @@ import javax.swing.event.ChangeListener;
 
 public class RightPanel  extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JLabel player1, player2, powerLabel;
 	JTextField score1, score2, powerValue;
 	JSlider powerSlider;
 	Box p1Info, p2Info;
 	
+	String name_of_player1 = "GRACZ 1";
+	String name_of_player2 = "GRACZ 2";
+	String power = "MOC";
 	static final int SLIDER_MIN = 0;
 	static final int SLIDER_MAX = 100;
 	static final int SLIDER_INIT = 100;
@@ -45,7 +53,7 @@ public class RightPanel  extends JPanel{
 		
 		add(Box.createRigidArea(new Dimension(0,5)));
 		
-		player1 = new JLabel("GRACZ 1");
+		player1 = new JLabel(name_of_player1);
 		p1Info.add(player1);
 		
 		p1Info.add(Box.createRigidArea(new Dimension(10,0)));
@@ -60,7 +68,7 @@ public class RightPanel  extends JPanel{
 		p2Info.setMaximumSize(new Dimension(100,30));
 		add(p2Info);
 		
-		player2 = new JLabel("GRACZ 2");
+		player2 = new JLabel(name_of_player2);
 		p2Info.add(player2);
 		
 		p2Info.add(Box.createRigidArea(new Dimension(10,0)));
@@ -72,7 +80,7 @@ public class RightPanel  extends JPanel{
 		
 		add(Box.createRigidArea(new Dimension(0,20)));
 		
-		powerLabel = new JLabel("MOC");
+		powerLabel = new JLabel(power);
 		powerLabel.setFont(new Font("Serif", Font.PLAIN, 30));
 		powerLabel.setAlignmentX(CENTER_ALIGNMENT);
 		add(powerLabel);
@@ -123,4 +131,3 @@ public class RightPanel  extends JPanel{
     }
 
 }
-

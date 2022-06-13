@@ -1,4 +1,4 @@
-package bilardmain;
+package Billiard3;
 
 public class Vector2D {
 

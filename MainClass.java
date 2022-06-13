@@ -1,13 +1,13 @@
-package bilardmain;
+package Billiard3;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridBagLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -17,30 +17,65 @@ import javax.swing.SwingUtilities;
 
 public class MainClass extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static RightPanel rightPanel;
 	static JPanel midPanel;
 	static Table table;
-		
-
+	
+	public JMenuBar menuBar;
+	public JMenu menuLine1;
+	public JMenu menuLine2;
+	public JMenu menuLine3;
+	public JMenu menuLine4;
+	public JMenu menuLine5;
+	public JMenuItem menuItem11;
+	public JMenuItem menuItem12;
+	public JMenuItem menuItem41;
+	public JMenuItem menuItem42;
+	public JMenuItem menuItem51;
+	public JMenuItem menuItem52;
+	
+	public String new_game;	
+	public String save;	
+	public String open;	
+	public String change_color;
+	public String language;
+	public String default_game;
+	public String custom_game;
+	public String ttable;
+	public String stick;
+	public int flag = 0;
+	public String choose_color = "Wybierz kolor";
 	public static final int WIDTH = 1400;
 	public static final int HEIGHT = 600;
 	
 	public MainClass() {
+		new_game = "Nowa gra";	
+		save = "Zapisz";	
+		open = "Otwórz";	
+		change_color = "Zmiana koloru";
+		language = "Język/Language";
+		default_game = "Domyślna";
+		custom_game = "Niestandardowa";
+		ttable = "Stół";
+		stick = "Kij";
+		
 		setSize(WIDTH,HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		setLayout(new BorderLayout());
-//		setResizable(false);
 		setTitle("Billiard");
 		
-		JMenuBar menuBar = new JMenuBar();
-		//UIManager.put("MenuBar.background", Color.DARK_GRAY);
-		JMenu menuLine1 = new JMenu("Nowa gra");
-		JMenu menuLine2 = new JMenu("Zapisz");
-		JMenu menuLine3 = new JMenu("Otwórz");
-		JMenu menuLine4 = new JMenu("Zmiana koloru");
-		JMenu menuLine5 = new JMenu("Język");
+		menuBar = new JMenuBar();
+		menuLine1 = new JMenu(new_game);
+		menuLine2 = new JMenu(save);
+		menuLine3 = new JMenu(open);
+		menuLine4 = new JMenu(change_color);
+		menuLine5 = new JMenu(language);
 		
-		JMenuItem menuItem11 = new JMenuItem("Domyślna");
+		menuItem11 = new JMenuItem(default_game);
 		menuItem11.setActionCommand("default");
 		menuItem11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -52,7 +87,7 @@ public class MainClass extends JFrame{
 		menuLine1.addSeparator();
 		
 		
-		JMenuItem menuItem12 = new JMenuItem("Niestandardowa");
+		menuItem12 = new JMenuItem(custom_game);
 		menuItem12.setActionCommand("custom");
 		menuItem12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -61,18 +96,53 @@ public class MainClass extends JFrame{
 
 			}
 		});
-//		menuItem12.addActionListener(this);
+
 		menuLine1.add(menuItem12);
 		
-		JMenuItem menuItem51 = new JMenuItem("EN");
+		menuItem41 = new JMenuItem(ttable);
+		menuItem41.setActionCommand("ttable");
+		menuItem41.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Removes shutter issue (check method header for details)
+				table.setBackground(JColorChooser.showDialog(null, choose_color, Color.white));
+			}
+		});
+		menuLine4.add(menuItem41);
+		menuLine4.addSeparator();
+		
+		
+		menuItem42 = new JMenuItem(stick);
+		menuItem42.setActionCommand("stick");
+		menuItem42.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Removes shutter issue (check method header for details)
+				table.stickColor = JColorChooser.showDialog(null, choose_color, Color.white);
+			}
+		});
+		menuLine4.add(menuItem42);
+		
+		menuItem51 = new JMenuItem("EN");
 		menuItem51.setActionCommand("en");
-//		menuItem51.addActionListener(this);
+		menuItem51.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	flag = 1;
+            	ChangeLanguage();
+            }
+
+        });
+		
 		menuLine5.add(menuItem51);
 		menuLine5.addSeparator();
 		
-		JMenuItem menuItem52 = new JMenuItem("PL");
+		menuItem52 = new JMenuItem("PL");
 		menuItem52.setActionCommand("pl");
-//		menuItem52.addActionListener(this);
+		menuItem52.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	flag = 0;
+            	ChangeLanguage();
+            }
+
+        });
 		menuLine5.add(menuItem52);
 		
 		
@@ -113,4 +183,53 @@ public class MainClass extends JFrame{
 			}
 		});
 	}
+	public void ChangeLanguage() {
+		if (flag == 1) {
+			rightPanel.player1.setText("PLAYER 1");
+			rightPanel.player2.setText("PLAYER 2");
+			rightPanel.powerLabel.setText("POWER");
+	    	new_game = "New game";	
+	    	save = "Save";	
+	    	open = "Open";	
+	    	change_color = "Change color";
+	    	choose_color = "Choose color";
+	    	menuLine1.setText(new_game);
+	    	menuLine2.setText(save);
+	    	menuLine3.setText(open);
+	    	menuLine4.setText(change_color);
+	    	
+	    	default_game = "Default";
+	    	custom_game = "Custom";
+	    	ttable = "Table";
+	    	stick = "Cue";
+	    	menuItem11.setText(default_game);
+	    	menuItem12.setText(custom_game);
+	    	menuItem41.setText(ttable);
+	    	menuItem42.setText(stick);
+		} else {
+			rightPanel.player1.setText("GRACZ 1");
+			rightPanel.player2.setText("GRACZ 2");
+			rightPanel.powerLabel.setText("MOC");
+	    	new_game = "Nowa gra";	
+	    	save = "Zapisz";	
+	    	open = "Otwórz";	
+	    	change_color = "Zmiana koloru";
+	    	choose_color = "Wybierz kolor";
+	    	menuLine1.setText(new_game);
+	    	menuLine2.setText(save);
+	    	menuLine3.setText(open);
+	    	menuLine4.setText(change_color);
+	    	
+	    	default_game = "Domyślna";
+	    	custom_game = "Niestandardowa";
+	    	ttable = "Stół";
+	    	stick = "Kij";
+	    	menuItem11.setText(default_game);
+	    	menuItem12.setText(custom_game);
+	    	menuItem41.setText(ttable);
+	    	menuItem42.setText(stick);
+		}
+		
+	}
+	
 }
