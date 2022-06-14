@@ -1,5 +1,4 @@
-package Billiard3;
-
+package Biliard;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -9,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -49,8 +49,10 @@ public class MainClass extends JFrame{
 	public String stick;
 	public int flag = 0;
 	public String choose_color = "Wybierz kolor";
+	public JLabel label1, label2,label3;
 	public static final int WIDTH = 1400;
 	public static final int HEIGHT = 600;
+	public String choosePlayer = "Wybierz Gracza";
 	PlayersWindow playersWindow;
 	public MainClass() {
 		new_game = "Nowa gra";	
@@ -62,7 +64,9 @@ public class MainClass extends JFrame{
 		custom_game = "Niestandardowa";
 		ttable = "Stół";
 		stick = "Kij";
-		
+		label1 = new JLabel("Wprowadz nazwy graczy: (max 7 znaków)");
+		label2 = new JLabel("GRACZ 1:");
+		label3 = new JLabel("GRACZ 2:");
 		setSize(WIDTH,HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		setLayout(new BorderLayout());
@@ -81,7 +85,7 @@ public class MainClass extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// Removes shutter issue (check method header for details)
 				table.typeOfGame = "default";
-				playersWindow = new PlayersWindow(rightPanel, table);
+				playersWindow = new PlayersWindow(rightPanel, table, label1, label2, label3, choosePlayer);
 				playersWindow.setVisible(true);
 			}
 		});
@@ -95,7 +99,7 @@ public class MainClass extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// Removes shutter issue (check method header for details)
 				table.typeOfGame = "custom";
-				playersWindow = new PlayersWindow(rightPanel, table);
+				playersWindow = new PlayersWindow(rightPanel, table, label1, label2, label3, choosePlayer);
 				playersWindow.setVisible(true);
 			}
 		});
@@ -187,16 +191,12 @@ public class MainClass extends JFrame{
 		});
 	}
 	public void ChangeLanguage() {
+		// EN
 		if (flag == 1) {
-			if (rightPanel.name_of_player1 == "GRACZ 1") {
-				rightPanel.name_of_player1 = "PLAYER 1";
-				rightPanel.player2.setText("PLAYER 1");
-			}
-			if (rightPanel.name_of_player2 == "GRACZ 2") {
-				rightPanel.name_of_player1 = "PLAYER 2";
-				rightPanel.player2.setText("PLAYER 2");
-			}
-			playersWindow.label2.setText("Enter players names: (max 7 chars)");
+			choosePlayer = "Choose Player";
+			label1.setText("Enter names of players: (max 7 chars)"); 
+			label2.setText("PLAYER 1:"); 
+			label3.setText("PLAYER 2:"); 
 			rightPanel.powerLabel.setText("POWER");
 	    	new_game = "New game";	
 	    	save = "Save";	
@@ -217,15 +217,11 @@ public class MainClass extends JFrame{
 	    	menuItem41.setText(ttable);
 	    	menuItem42.setText(stick);
 		} else {
-			if (rightPanel.name_of_player1 == "PLAYER 1") {
-				rightPanel.name_of_player1 = "GRACZ 1";
-				rightPanel.player2.setText("GRACZ 1");
-			}
-			if (rightPanel.name_of_player2 == "PLAYER 2") {
-				rightPanel.name_of_player1 = "GRACZ 2";
-				rightPanel.player2.setText("GRACZ 2");
-			}
-			playersWindow.label2.setText("Wprowadz nazwy graczy: (max 7 znaków)");
+			// PL
+			choosePlayer = "Wybierz Gracza";
+			label1.setText("Wprowadz nazwy graczy: (maks 7 znaków)");
+			label2.setText("GRACZ 1:"); 
+			label3.setText("GRACZ 2:"); 
 			rightPanel.powerLabel.setText("MOC");
 	    	new_game = "Nowa gra";	
 	    	save = "Zapisz";	

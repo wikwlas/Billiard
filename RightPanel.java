@@ -1,4 +1,4 @@
-package Billiard3;
+package Biliard;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,9 +27,7 @@ public class RightPanel  extends JPanel{
 	JTextField score1, score2, powerValue;
 	JSlider powerSlider;
 	Box p1Info, p2Info;
-	
-	String name_of_player1 = "GRACZ 1";
-	String name_of_player2 = "GRACZ 2";
+
 	String power = "MOC";
 	static final int SLIDER_MIN = 0;
 	static final int SLIDER_MAX = 100;
@@ -53,7 +51,8 @@ public class RightPanel  extends JPanel{
 		
 		add(Box.createRigidArea(new Dimension(0,5)));
 		
-		player1 = new JLabel(name_of_player1);
+		player1 = new JLabel();
+		player1.setPreferredSize(new Dimension(60, 25));
 		p1Info.add(player1);
 		
 		p1Info.add(Box.createRigidArea(new Dimension(10,0)));
@@ -68,7 +67,8 @@ public class RightPanel  extends JPanel{
 		p2Info.setMaximumSize(new Dimension(100,30));
 		add(p2Info);
 		
-		player2 = new JLabel(name_of_player2);
+		player2 = new JLabel();
+		player2.setPreferredSize(new Dimension(60, 25));
 		p2Info.add(player2);
 		
 		p2Info.add(Box.createRigidArea(new Dimension(10,0)));
