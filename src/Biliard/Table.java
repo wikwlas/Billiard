@@ -394,7 +394,7 @@ public class Table extends JPanel implements Runnable {
 				else if(balls[j].ballType == 1)
 					MainClass.rightPanel.score2.setText(Integer.toString(Integer.parseInt(MainClass.rightPanel.score2.getText())+1));
 				else if(balls[j].ballType == 2) {
-					JOptionPane.showMessageDialog(MainClass.table, MainClass.blackball_pocketed, "", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(MainClass.table, MainClass.blackball_pocketed, "", JOptionPane.INFORMATION_MESSAGE);
 					ballCount = 0;
 					deleteAllBalls();
 				}

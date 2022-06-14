@@ -7,10 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -26,6 +28,8 @@ public class PlayersWindow extends JFrame {
 	public JTextField textField1;
 	public JTextField textField2;
 	public JButton start;
+	Random rand;
+	public int r;
 	public PlayersWindow(final RightPanel rightPanel, final Table table, JLabel label1, JLabel label2, JLabel label3, String choosePlayer) {
 		setSize(300, 180);
 		setResizable(false);
@@ -76,6 +80,14 @@ public class PlayersWindow extends JFrame {
 				rightPanel.player2.setText(textField2.getText());
 				if (table.typeOfGame == "default") {
 					table.StandardGameStart();
+					rand = new Random();
+					r = rand.nextInt(2); // 0,1
+					if (r == 0) {
+						JOptionPane.showMessageDialog(MainClass.table, MainClass.player_random1 + textField1.getText() + "\n" + MainClass.player_random2, "", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(MainClass.table, MainClass.player_random1 + textField2.getText() + "\n" + MainClass.player_random2, "", JOptionPane.INFORMATION_MESSAGE);
+					}
+					
 				} else {
 					table.CustomGameStart();
 				}

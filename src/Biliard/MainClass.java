@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -53,6 +54,8 @@ public class MainClass extends JFrame{
 	public static final int WIDTH = 1400;
 	public static final int HEIGHT = 600;
 	public String choosePlayer = "Wybierz Gracza";
+	static String player_random1 = "Zaczyna gracz: ";
+	static String player_random2 = "Niebieskie to Twoje bile!";
 	static String blackball_pocketed = "Wbito czarną bilę! Koniec gry!";
 	PlayersWindow playersWindow;
 	
@@ -78,8 +81,8 @@ public class MainClass extends JFrame{
 		
 		menuBar = new JMenuBar();
 		menuLine1 = new JMenu(new_game);
-		menuLine2 = new JMenu(save);
-		menuLine3 = new JMenu(open);
+//		menuLine2 = new JMenu(save);
+//		menuLine3 = new JMenu(open);
 		menuLine4 = new JMenu(change_color);
 		menuLine5 = new JMenu(language);
 		
@@ -116,6 +119,7 @@ public class MainClass extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// Removes shutter issue (check method header for details)
 				table.setBackground(JColorChooser.showDialog(null, choose_color, Color.white));
+				
 			}
 		});
 		menuLine4.add(menuItem41);
@@ -158,8 +162,8 @@ public class MainClass extends JFrame{
 		
 		
 		menuBar.add(menuLine1);
-		menuBar.add(menuLine2);
-		menuBar.add(menuLine3);
+//		menuBar.add(menuLine2);
+//		menuBar.add(menuLine3);
 		menuBar.add(menuLine4);
 		menuBar.add(menuLine5);
 		
@@ -199,6 +203,8 @@ public class MainClass extends JFrame{
 	public void ChangeLanguage() {
 		// EN
 		if (flag == 1) {
+			player_random1 = "First player: ";
+			player_random2 = "Blue is your balls color!";
 			blackball_pocketed = "Black Ball is pocketed! Game over!";
 			choosePlayer = "Choose Player";
 			label1.setText("Enter names of players: (max 7 chars)"); 
@@ -211,8 +217,8 @@ public class MainClass extends JFrame{
 	    	change_color = "Change color";
 	    	choose_color = "Choose color";
 	    	menuLine1.setText(new_game);
-	    	menuLine2.setText(save);
-	    	menuLine3.setText(open);
+//	    	menuLine2.setText(save);
+//	    	menuLine3.setText(open);
 	    	menuLine4.setText(change_color);
 	    	
 	    	default_game = "Default";
@@ -225,6 +231,8 @@ public class MainClass extends JFrame{
 	    	menuItem42.setText(stick);
 		} else {
 			// PL
+			player_random1 = "Zaczyna gracz: ";
+			player_random2 = "Niebieskie to Twoje bile!";
 			blackball_pocketed = "Wbito czarną bilę! Koniec gry!";
 			choosePlayer = "Wybierz Gracza";
 			label1.setText("Wprowadz nazwy graczy: (maks 7 znaków)");
@@ -237,8 +245,8 @@ public class MainClass extends JFrame{
 	    	change_color = "Zmiana koloru";
 	    	choose_color = "Wybierz kolor";
 	    	menuLine1.setText(new_game);
-	    	menuLine2.setText(save);
-	    	menuLine3.setText(open);
+//	    	menuLine2.setText(save);
+//	    	menuLine3.setText(open);
 	    	menuLine4.setText(change_color);
 	    	
 	    	default_game = "Domyślna";
