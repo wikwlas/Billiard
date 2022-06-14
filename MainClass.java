@@ -53,6 +53,7 @@ public class MainClass extends JFrame{
 	public static final int WIDTH = 1400;
 	public static final int HEIGHT = 600;
 	public String choosePlayer = "Wybierz Gracza";
+	static String blackball_pocketed = "Wbito czarną bilę! Koniec gry!";
 	PlayersWindow playersWindow;
 	public MainClass() {
 		new_game = "Nowa gra";	
@@ -193,6 +194,7 @@ public class MainClass extends JFrame{
 	public void ChangeLanguage() {
 		// EN
 		if (flag == 1) {
+			blackball_pocketed = "Black Ball is pocketed! Game over!";
 			choosePlayer = "Choose Player";
 			label1.setText("Enter names of players: (max 7 chars)"); 
 			label2.setText("PLAYER 1:"); 
@@ -218,6 +220,7 @@ public class MainClass extends JFrame{
 	    	menuItem42.setText(stick);
 		} else {
 			// PL
+			blackball_pocketed = "Wbito czarną bilę! Koniec gry!";
 			choosePlayer = "Wybierz Gracza";
 			label1.setText("Wprowadz nazwy graczy: (maks 7 znaków)");
 			label2.setText("GRACZ 1:"); 

@@ -33,7 +33,7 @@ public class Table extends JPanel implements Runnable {
 	long start;
 	private Vector2D strike = new Vector2D();
 	private Vector2D direction, gap, stickVec;
-
+	
 
 	long previousTime;
 	
@@ -341,8 +341,18 @@ public class Table extends JPanel implements Runnable {
 					MainClass.rightPanel.score1.setText(Integer.toString(Integer.parseInt(MainClass.rightPanel.score1.getText())+1));
 				else if(balls[j].ballType == 1)
 					MainClass.rightPanel.score2.setText(Integer.toString(Integer.parseInt(MainClass.rightPanel.score2.getText())+1));
-				else if(balls[j].ballType == 2)
-					JOptionPane.showMessageDialog(MainClass.table, "wbito czarna", "", JOptionPane.ERROR_MESSAGE);
+				else if(balls[j].ballType == 2) {
+					JOptionPane.showMessageDialog(MainClass.table, MainClass.blackball_pocketed, "", JOptionPane.ERROR_MESSAGE);
+//					try
+//					{
+//						Thread.sleep(5);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//					deleteAllBalls();
+					ballCount = 0;
+					deleteAllBalls();
+				}
 			}
 		}
 	}
