@@ -76,20 +76,35 @@ public class PlayersWindow extends JFrame {
 		start.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				rightPanel.player1.setText(textField1.getText());
-				rightPanel.player2.setText(textField2.getText());
+				
+				
 				if (table.typeOfGame == "default") {
 					table.StandardGameStart();
 					rand = new Random();
 					r = rand.nextInt(2); // 0,1
 					if (r == 0) {
+						rightPanel.player1.setText(textField1.getText());
+						rightPanel.player2.setText(textField2.getText());
 						JOptionPane.showMessageDialog(MainClass.table, MainClass.player_random1 + textField1.getText() + "\n" + MainClass.player_random2, "", JOptionPane.INFORMATION_MESSAGE);
 					} else {
+						rightPanel.player1.setText(textField2.getText());
+						rightPanel.player2.setText(textField1.getText());
 						JOptionPane.showMessageDialog(MainClass.table, MainClass.player_random1 + textField2.getText() + "\n" + MainClass.player_random2, "", JOptionPane.INFORMATION_MESSAGE);
 					}
 					
 				} else {
 					table.CustomGameStart();
+					rand = new Random();
+					r = rand.nextInt(2); // 0,1
+					if (r == 0) {
+						rightPanel.player1.setText(textField1.getText());
+						rightPanel.player2.setText(textField2.getText());
+						JOptionPane.showMessageDialog(MainClass.table, MainClass.player_random1 + textField1.getText() + "\n" + MainClass.player_random2, "", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						rightPanel.player1.setText(textField2.getText());
+						rightPanel.player2.setText(textField1.getText());
+						JOptionPane.showMessageDialog(MainClass.table, MainClass.player_random1 + textField2.getText() + "\n" + MainClass.player_random2, "", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 				dispose();
 				setVisible(false);
