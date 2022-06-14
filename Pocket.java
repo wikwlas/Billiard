@@ -1,4 +1,4 @@
-package Billiard3;
+package Biliard;
 
 import java.awt.Color;
 import java.awt.Graphics;
